@@ -28,5 +28,7 @@ EXPOSE 8888
 # Add a script to configure the Jupyter password
 COPY set_password.sh /usr/local/bin/set_jupyter_password.sh
 
+ENV DISPLAY "`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"
+
 # Set the default command to start Jupyter Notebook
 CMD ["bash", "-c", "set_jupyter_password.sh && jupyter notebook --ip=0.0.0.0 --no-browser --allow-root"]

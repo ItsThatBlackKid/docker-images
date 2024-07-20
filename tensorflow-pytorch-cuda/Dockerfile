@@ -5,7 +5,7 @@ FROM tensorflow/tensorflow:latest-gpu-jupyter
 COPY requirements.txt /tmp/requirements.txt
 
 # Install the opencv deps 
-RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 graphviz  -y
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 graphviz qtcreator qtbase5-dev qt5-qmake cmake  -y
 
 # Install the required Python packages using pip
 RUN pip install -r /tmp/requirements.txt
@@ -24,6 +24,8 @@ WORKDIR /home/jupyteruser
 
 # Expose the Jupyter Notebook port
 EXPOSE 8888
+
+ENV DISPLAY "`grep nameserver /etc/resolv.conf | sed 's/nameserver //'`:0"
 
 # Set the default command to start Jupyter Notebook
 CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--no-browser", "--allow-root"]
